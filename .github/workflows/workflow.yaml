@@ -47,6 +47,7 @@ jobs:
         createPR: false
         message: 'CD: Update nwc tag to ${{ steps.build.outputs.tags }}'
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        # needs to be updated
         workDir: infrastructure
     # Only update prod environment if this action was triggered by a new tag
     - name: Update production environment
