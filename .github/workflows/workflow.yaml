@@ -50,16 +50,16 @@ jobs:
         # needs to be updated
         workDir: infrastructure
     # Only update prod environment if this action was triggered by a new tag
-    - name: Update production environment
-      if: startsWith(github.ref, 'refs/tags')
-      uses: fjogeleit/yaml-update-action@v0.7.0
-      with:
-        valueFile: 'alby-mainnet-deployment/values.yaml'
-        propertyPath: 'nwc.image.tag'
-        value: ${{ steps.build.outputs.tags }}
-        repository: getalby/alby-deployment
-        branch: main
-        createPR: false
-        message: 'CD: Update nwc tag to ${{ steps.build.outputs.tags }}'
-        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        workDir: infrastructure
+    # - name: Update production environment
+    #   if: startsWith(github.ref, 'refs/tags')
+    #   uses: fjogeleit/yaml-update-action@v0.7.0
+    #   with:
+    #     valueFile: 'alby-mainnet-deployment/values.yaml'
+    #     propertyPath: 'nwc.image.tag'
+    #     value: ${{ steps.build.outputs.tags }}
+    #     repository: getalby/alby-deployment
+    #     branch: main
+    #     createPR: false
+    #     message: 'CD: Update nwc tag to ${{ steps.build.outputs.tags }}'
+    #     token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+    #     workDir: infrastructure
