@@ -179,7 +179,6 @@ func (svc *StrikeOAuthService) LookupInvoice(ctx context.Context, senderPubkey s
 			timeNow := time.Now().Unix()
 			transaction.SettledAt = &timeNow
 		}
-		fmt.Println(transaction)
 		return transaction, nil
 	}
 
