@@ -171,12 +171,12 @@ func (svc *StrikeOAuthService) LookupInvoice(ctx context.Context, senderPubkey s
 			PaymentHash: paymentHash,
 			Preimage:    "samplepreimage",
 			Amount:      int64(amountInBTC * math.Pow(10, 8)),
-			CreatedAt:   createdAt,
+			CreatedAt:   createdAt.Unix(),
 		}
 
 		if responsePayload.State == "PAID" {
 			// TODO: replace with actual settledAt (currently not returned in response)
-			timeNow := time.Now()
+			timeNow := time.Now().Unix()
 			transaction.SettledAt = &timeNow
 		}
 		fmt.Println(transaction)
@@ -342,7 +342,6 @@ func (svc *StrikeOAuthService) MakeInvoice(ctx context.Context, senderPubkey str
 			// "paymentHash":     "paymentHash",
 		}).Info("Make invoice successful")
 		// Payment hash is unsupported
-		expiresAt := time.Unix(responsePayload.Expiry, 0)
 		return &Nip47Transaction{
 			Type:            "incoming",
 			Invoice:         responsePayload.LnInvoice,
@@ -350,7 +349,7 @@ func (svc *StrikeOAuthService) MakeInvoice(ctx context.Context, senderPubkey str
 			DescriptionHash: descriptionHash,
 			// Passing invoiceId as paymentHash for now
 			PaymentHash: invoiceId,
-			ExpiresAt:   &expiresAt,
+			ExpiresAt:   &responsePayload.Expiry,
 			Amount:      amount,
 		}, nil
 	}
