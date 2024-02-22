@@ -263,7 +263,7 @@ func (svc *Service) GetMethods(app *App) []string {
 	})
 	if findPermissionsResult.RowsAffected == 0 {
 		// No permissions created for this app. It can do anything
-		return strings.Split(NIP_47_CAPABILITIES, ",")
+		return strings.Split(NIP_47_CAPABILITIES, " ")
 	}
 	requestMethods := make([]string, 0, len(appPermissions))
 	for _, appPermission := range appPermissions {
