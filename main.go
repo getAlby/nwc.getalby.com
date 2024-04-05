@@ -48,7 +48,7 @@ func main() {
 			if err != nil {
 				log.Fatalf("Failed to open DB %v", err)
 			}
-			db, err = gormtrace.Open(postgres.New(postgres.Config{Conn: sqlDb}), &gorm.Config{})
+			db, err = gormtrace.Open(postgres.New(postgres.Config{Conn: sqlDb}), &gorm.Config{}, gormtrace.WithServiceName("nostr-wallet-connect"))
 			if err != nil {
 				log.Fatalf("Failed to open DB %v", err)
 			}
