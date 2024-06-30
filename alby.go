@@ -381,9 +381,7 @@ func (svc *AlbyOAuthService) ListTransactions(ctx context.Context, senderPubkey 
 	client := svc.oauthConf.Client(ctx, tok)
 
 	urlParams := url.Values{}
-	//urlParams.Add("page", "1")
 
-	// TODO: clarify gt/lt vs from to in NWC spec
 	if from != 0 {
 		urlParams.Add("q[created_at_gt]", strconv.FormatUint(from, 10))
 	}
@@ -393,6 +391,16 @@ func (svc *AlbyOAuthService) ListTransactions(ctx context.Context, senderPubkey 
 	if limit != 0 {
 		urlParams.Add("items", strconv.FormatUint(limit, 10))
 	}
+
+	// hack to allow offset but only via pagination
+	if offset != 0 {
+		if limit == 0 || offset%limit != 0 {
+			return nil, fmt.Errorf("offset must be a multiple of the limit provided (e.g. 0, %d, %d)", limit, limit*2)
+		}
+
+		urlParams.Add("page", strconv.FormatUint((offset/limit)+1, 10))
+	}
+
 	// TODO: Add Offset and Unpaid
 
 	endpoint := "/invoices"

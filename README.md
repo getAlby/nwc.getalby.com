@@ -172,7 +172,8 @@ You can also contribute to our [bounty program](https://github.com/getAlby/light
 - ⚠️ fees_paid in response not supported
 
 ✅ `list_transactions`
-- ⚠️ offset and unpaid in request not supported
+- ⚠️ offset only works with multiples of limit e.g. (0, limit, limit * 2)
+- ⚠️ unpaid in request not supported
 - ⚠️ fees_paid in response not supported
 - ⚠️ unsettled and failed transactions will not be returned
 
