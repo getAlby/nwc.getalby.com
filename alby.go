@@ -659,7 +659,7 @@ func (svc *AlbyOAuthService) CallbackHandler(c echo.Context) error {
 	}
 	client := svc.oauthConf.Client(c.Request().Context(), tok)
 
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/user/me", svc.cfg.AlbyAPIURL), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/internal/users", svc.cfg.AlbyAPIURL), nil)
 	if err != nil {
 		svc.Logger.WithError(err).Error("Error creating request /me")
 		return err
@@ -686,6 +686,7 @@ func (svc *AlbyOAuthService) CallbackHandler(c echo.Context) error {
 	user.Expiry = tok.Expiry // TODO; probably needs some calculation
 	user.Email = me.Email
 	user.LightningAddress = me.LightningAddress
+	user.HubUrl = me.Hub.Url
 	svc.db.Save(&user)
 
 	sess, _ := session.Get(CookieName, c)
