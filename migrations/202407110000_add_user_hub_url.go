@@ -5,7 +5,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// Create a composite index to improve performance of finding the latest nostr event for an app
+// Save user's new hub URL so it only has to be requested once on auth
 var _202407110000_user_hub_url = &gormigrate.Migration{
 	ID: "_202407110000_user_hub_url",
 	Migrate: func(tx *gorm.DB) error {
