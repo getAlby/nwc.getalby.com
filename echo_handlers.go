@@ -285,7 +285,7 @@ func (svc *Service) AppsNewHandler(c echo.Context) error {
 		return c.Redirect(302, fmt.Sprintf("/%s/auth?c=%s", strings.ToLower(svc.cfg.LNBackendType), appName))
 	}
 	if user.HubUrl != "" {
-		return c.Redirect(302, fmt.Sprintf("%s/#/apps/new%s", user.HubUrl, c.QueryString()))
+		return c.Redirect(302, fmt.Sprintf("%s/#/apps/new?%s", user.HubUrl, c.QueryString()))
 	}
 
 	//construction to return a map with all possible permissions
