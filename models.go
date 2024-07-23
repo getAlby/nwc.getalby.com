@@ -56,11 +56,16 @@ var nip47MethodIcons = map[string]string{
 }
 
 // TODO: move to models/Alby
+type AlbyMeHub struct {
+	Url string `json:"url"`
+}
 type AlbyMe struct {
-	Identifier       string `json:"identifier"`
-	NPub             string `json:"nostr_pubkey"`
-	LightningAddress string `json:"lightning_address"`
-	Email            string `json:"email"`
+	Identifier       string    `json:"identifier"`
+	NPub             string    `json:"nostr_pubkey"`
+	LightningAddress string    `json:"lightning_address"`
+	Email            string    `json:"email"`
+	SharedNode       bool      `json:"shared_node"`
+	Hub              AlbyMeHub `json:"hub"`
 }
 
 type User struct {
@@ -69,6 +74,7 @@ type User struct {
 	AccessToken      string `validate:"required"`
 	RefreshToken     string `validate:"required"`
 	Email            string
+	HubUrl           string
 	Expiry           time.Time
 	LightningAddress string
 	Apps             []App
