@@ -13,8 +13,15 @@
     document.title = "Waiting for Alby Hub Connection...";
     document.getElementById("message").innerHTML = `Please enable pop-ups and proceed in the new Alby Hub window.<br/>Keep this window open to receive updates.`
 
+    const height = 600;
+    const width = 400;
+    const top = window.outerHeight / 2 + window.screenY - height / 2;
+    const left = window.outerWidth / 2 + window.screenX - width / 2;
     // open hub in another window
-    const hubWindow = window.open("{{.User.HubUrl}}/#/apps/new?{{.QueryString}}")
+    const hubWindow = window.open("{{.User.HubUrl}}/#/apps/new?{{.QueryString}}",
+      `hubWalletConnect`,
+      `height=${height},width=${width},top=${top},left=${left}`,
+    )
 
     // listen to nwc:success message from the hub and pass it to the opener
     window.addEventListener("message", (event) => {
