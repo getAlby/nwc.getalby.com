@@ -1,59 +1,5 @@
 {{define "body"}}
 
-{{if .User.HubUrl}}
-
-<p id="message" class="font-bold text-xl font-headline mb-4 dark:text-white text-center"></p>
-
-<script type="text/javascript">
-  if (!window.opener) {
-    // if there's no opener, redirect to hub url
-    document.getElementById("message").innerHTML = "Redirecting to Alby Hub..."
-    window.location.href = "{{.User.HubUrl}}/#/apps/new?{{.QueryString}}"
-  } else {
-    document.title = "Waiting for Alby Hub Connection...";
-    document.getElementById("message").innerHTML = `Please enable pop-ups and proceed in the new Alby Hub window.<br/>Keep this window open to receive updates.`
-
-    const height = 600;
-    const width = 400;
-    const top = window.outerHeight / 2 + window.screenY - height / 2;
-    const left = window.outerWidth / 2 + window.screenX - width / 2;
-    // open hub in another window
-    const hubWindow = window.open("{{.User.HubUrl}}/#/apps/new?{{.QueryString}}",
-      `hubWalletConnect`,
-      `height=${height},width=${width},top=${top},left=${left}`,
-    )
-
-    // listen to nwc:success message from the hub and pass it to the opener
-    window.addEventListener("message", (event) => {
-      if (event.data && event.data.type === "nwc:success") {
-        const nwcEvent = new CustomEvent("nwc:success", { detail: {} });
-        window.dispatchEvent(nwcEvent);
-
-        // notify the opener of the successful connection
-        if (window.opener) {
-          window.opener.postMessage(
-            {
-              type: "nwc:success",
-              payload: {success: true},
-            },
-            "*"
-          );
-        }
-
-        document.getElementById("message").innerText = "App created successfully"
-        document.title = "Alby Hub Connection Successful"
-
-        // Close the hub window
-        if (hubWindow) {
-          hubWindow.close();
-        }
-      }
-    });
-  }
-</script>
-
-{{else}}
-
 <h2 class="font-bold text-2xl font-headline mb-4 dark:text-white">
   {{if .Name}}
     Connect to {{.Name}}
@@ -134,12 +80,12 @@
                   {{end}}
                 </div>
                 {{end}}
-                
+
               </li>
               {{ end }}
         </ul>
       </div>
-      
+
       {{if (eq .ExpiresAt "")}}
         <div id="expiry-toggle" class="cursor-pointer text-sm font-medium text-purple-700  dark:text-purple-500">
           + Add connection expiry time
@@ -189,7 +135,7 @@
   // Permissions
   const perms = document.getElementById("request-method-options");
   const edit = document.getElementById("edit");
-  
+
   const permsItems = perms.querySelectorAll("li");
   const permsBoxes = perms.querySelectorAll("input[type=checkbox]");
   const permsIcons =  perms.querySelectorAll("img");
@@ -258,7 +204,7 @@
   const today = new Date();
   const expiryDays = document.getElementById("expiry-days")?.querySelectorAll("div");
   const expiresAt = document.getElementById("expires-at");
-  
+
   expiryDays?.forEach(day => {
     day.addEventListener("click", function(e) {
       expiryDays.forEach(div => {
@@ -275,5 +221,4 @@
     })
   })
 </script>
-{{end}}
 {{end}}
